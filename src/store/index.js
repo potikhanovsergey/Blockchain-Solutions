@@ -11,6 +11,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setChartData(store, payload) {
+      console.log(payload.currency)
       store.chartsData[payload.currency] = [];
       payload.data.map(a => {
         store.chartsData[payload.currency].push([a.timestamp, Math.floor(a.rate)]);
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   },
   actions: {
     async getChartData({commit}, payload) {
+      console.log(payload.fetchString)
       fetch(payload.fetchString)
       .then((response) => {
           return response.json();

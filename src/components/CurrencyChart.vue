@@ -56,21 +56,32 @@ export default {
             horizontalAlign: 'left'
             }
         },
+        twoWeeksAgo: null,
+        now: null
         }
     },
     async created () {   
         let twoWeeks = 1000 * 60 * 60 * 24 * 14;
         let twoWeeksTime = new Date(new Date().getTime() - twoWeeks);
-        let twoWeeksAgo = (twoWeeksTime.getFullYear()) + '-' +
+        this.twoWeeksAgo = (twoWeeksTime.getFullYear()) + '-' +
                     ((twoWeeksTime.getMonth()+1) < 10 ? "0"+(twoWeeksTime.getMonth()+1): (twoWeeksTime.getMonth()+1)) + '-' +
                     (twoWeeksTime.getDate() < 10 ? "0"+(twoWeeksTime.getDate()): (twoWeeksTime.getDate())) + 'T00%3A00%3A00Z';
         
-        let timeNow = new Date();
-        let nowFormatted = (timeNow.getFullYear()) + '-' +
-                    ((timeNow.getMonth()+1) < 10 ? "0"+(timeNow.getMonth()+1): (timeNow.getMonth()+1)) + '-' +
-                    (timeNow.getDate() < 10 ? "0"+(timeNow.getDate()): (timeNow.getDate())) + 'T00%3A00%3A00Z';
+        // let twoWeeksAgo = (twoWeeksTime.getFullYear()) + '-' +
+        //             ((twoWeeksTime.getMonth()+1) < 10 ? "0"+(twoWeeksTime.getMonth()+1): (twoWeeksTime.getMonth()+1)) + '-' +
+        //             (twoWeeksTime.getDate() < 10 ? "0"+(twoWeeksTime.getDate()): (twoWeeksTime.getDate())) + 'T00%3A00%3A00Z';
+        
+        // let timeNow = new Date();
+        // let nowFormatted = (timeNow.getFullYear()) + '-' +
+        //             ((timeNow.getMonth()+1) < 10 ? "0"+(timeNow.getMonth()+1): (timeNow.getMonth()+1)) + '-' +
+        //             (timeNow.getDate() < 10 ? "0"+(timeNow.getDate()): (timeNow.getDate())) + 'T00%3A00%3A00Z';
+        
+            let now = new Date();
+            this.now = (now.getFullYear()) + '-' +
+                        ((now.getMonth()+1) < 10 ? "0"+ (now.getMonth()+1): (now.getMonth()+1)) + '-' +
+                        (now.getDate() < 10 ? "0"+(now.getDate()): (now.getDate())) + 'T00%3A00%3A00Z';
 
-        const fetchString = `https://api.nomics.com/v1/exchange-rates/history?key=b80e96c0a178a1c8569facd9f5bac1840eab8ec2&currency=${this.convertCurrency}&start=${twoWeeksAgo}&end=${nowFormatted}`;
+        // this.fetchStr = `https://api.nomics.com/v1/exchange-rates/history?key=b80e96c0a178a1c8569facd9f5bac1840eab8ec2&currency=${this.convertCurrency}&start=${twoWeeksAgo}&end=${nowFormatted}`;
         
         // let response = await fetch(fetchString)
         // let data = await response.json();
@@ -82,7 +93,6 @@ export default {
         // })
         // console.log(this.series[0].data)      
 
-        this.getChartData({fetchString, currency: this.convertCurrency})
         setTimeout(this.updateChart, 3000)
 
         // fetch(fetchString)
@@ -98,13 +108,20 @@ export default {
         //     this.$emit('fetched');
         // })
     },
+    watch: {
+        convert(newV) {
+            this.convertCurrency = newV;
+            this.getChartData({fetchString: this.fetchStr, currency: this.convertCurrency})
+            setTimeout(this.updateChart(), 2000);
+        }
+    },
     methods: {
         ...mapActions(['getChartData']),
         updateChart() {
             this.$refs.currencyChart.updateSeries([{
                 data: this.$store.getters.chartsData(this.convertCurrency)
             }])
-            console.log('updated', this.$store.getters.chartsData('BTC'))
+            console.log('updated', this.$store.getters.chartsData('BTC'), this.$store.state.chartsData)
         }
         // chartData() {
         //     if (this.$store.state.chartsData.length) {
@@ -115,6 +132,9 @@ export default {
     },
     computed: {
         ...mapGetters(['chartsData']),
+        fetchStr() {
+            return `https://api.nomics.com/v1/exchange-rates/history?key=b80e96c0a178a1c8569facd9f5bac1840eab8ec2&currency=${this.convertCurrency}&start=${this.twoWeeksAgo}&end=${this.now}`;
+        }
     },
 }
 </script>
