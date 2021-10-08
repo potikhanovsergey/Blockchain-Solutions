@@ -17,13 +17,14 @@
                 </v-tab>
         </v-tabs>
         <v-sheet color="transparent">
-            <v-skeleton-loader v-show="exchangeDataFetching"
+            <v-skeleton-loader v-show="dataFetching"
             class="mx-auto"
             width="100%"
             type="card"
             ></v-skeleton-loader>
 
             <currency-chart 
+            v-show="!dataFetching"
             @fetched="exchangeDataFetching = false"
              :convert="convert"></currency-chart>
 
@@ -31,6 +32,7 @@
     </v-card>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import CurrencyChart from './CurrencyChart.vue';
   export default {
     components: {
@@ -52,13 +54,14 @@ import CurrencyChart from './CurrencyChart.vue';
             },
         ],
         convert: 'BTC',
-        exchangeDataFetching: true,
     }),
     methods: {
         changeChartCurrency(c) {
             this.convert = c;
-            console.log(c, this.convert);
         }
+    },
+    computed: {
+        ...mapGetters(['dataFetching'])
     },
     // async created () {
     //     let response = await fetch("https://api.nomics.com/v1/exchange-rates/history?key=b80e96c0a178a1c8569facd9f5bac1840eab8ec2&currency=BTC&convert=EUR&start=2021-09-22T00%3A00%3A00Z&end=2021-10-6T00%3A00%3A00Z")

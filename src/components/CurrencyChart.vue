@@ -20,7 +20,7 @@ export default {
         convertCurrency: this.convert,
         series: 
             [{
-                name: "STOCK ABC",
+                name: "В долларах",
                 data: []
             }],
         chartOptions: {
@@ -93,8 +93,6 @@ export default {
         // })
         // console.log(this.series[0].data)      
 
-        setTimeout(this.updateChart, 3000)
-
         // fetch(fetchString)
         // .then((response) => {
         //     return response.json();
@@ -111,8 +109,13 @@ export default {
     watch: {
         convert(newV) {
             this.convertCurrency = newV;
-            this.getChartData({fetchString: this.fetchStr, currency: this.convertCurrency})
-            setTimeout(this.updateChart(), 2000);
+            // this.getChartData({fetchString: this.fetchStr, currency: this.convertCurrency})
+            this.updateChart()
+        },
+        dataFetching(newValue) {
+            if (newValue === false) {
+                this.updateChart();
+            }
         }
     },
     methods: {
@@ -121,7 +124,6 @@ export default {
             this.$refs.currencyChart.updateSeries([{
                 data: this.$store.getters.chartsData(this.convertCurrency)
             }])
-            console.log('updated', this.$store.getters.chartsData('BTC'), this.$store.state.chartsData)
         }
         // chartData() {
         //     if (this.$store.state.chartsData.length) {
@@ -131,9 +133,14 @@ export default {
         // }
     },
     computed: {
-        ...mapGetters(['chartsData']),
+        ...mapGetters(['chartsData', 'dataFetching']),
         fetchStr() {
             return `https://api.nomics.com/v1/exchange-rates/history?key=b80e96c0a178a1c8569facd9f5bac1840eab8ec2&currency=${this.convertCurrency}&start=${this.twoWeeksAgo}&end=${this.now}`;
+        }
+    },
+    mounted () {
+        if (!this.dataFetching) {
+            this.updateChart();
         }
     },
 }

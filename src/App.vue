@@ -24,12 +24,13 @@
 
 
       <v-spacer></v-spacer>
-      <span class="mr-5 display-1">Конвертер криптовалют</span>
+      <span class="mr-5">Конвертер криптовалют. Тестовое задание на позицию Frontend Developer Стажировка</span>
     </v-app-bar>
 
     <v-navigation-drawer
       v-model="drawer"
-      absolute
+      app
+      fixed
       temporary
     >
       <v-list
@@ -64,6 +65,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 
 export default {
   name: 'App',
@@ -71,5 +74,12 @@ export default {
   data: () => ({
     drawer: false
   }),
+  methods: {
+    ...mapActions(['getAllCharts', 'getConvertionUSD']),
+  },
+  created () {
+    this.getAllCharts();
+    this.getConvertionUSD();
+  },
 };
 </script>
