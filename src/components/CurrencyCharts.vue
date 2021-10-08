@@ -1,0 +1,73 @@
+   <template>
+    <v-card>
+        <v-card-title class="text-center">
+            <h2 class="text-sm-center">График изменения курса за последние 14 дней</h2>
+        </v-card-title>
+            <v-tabs
+            background-color="transparent"
+            color="basil"
+            grow
+            >
+                <v-tab
+                    @click="changeChartCurrency(item.convert)"
+                    v-for="item in items"
+                    :key="item.convert"
+                >
+                    {{ item.title }}
+                </v-tab>
+        </v-tabs>
+        <v-sheet color="transparent">
+            <v-skeleton-loader v-show="exchangeDataFetching"
+            class="mx-auto"
+            width="100%"
+            type="card"
+            ></v-skeleton-loader>
+
+            <currency-chart 
+            @fetched="exchangeDataFetching = false"
+             :convert="convert"></currency-chart>
+
+        </v-sheet>
+    </v-card>
+</template>
+<script>
+import CurrencyChart from './CurrencyChart.vue';
+  export default {
+    components: {
+        CurrencyChart
+    },
+    data: () => ({
+        items: [
+            {
+                title: 'BTC-USD',
+                convert: 'BTC',
+            },
+            {
+                title: 'ETH-USD',
+                convert: 'ETH',
+            },
+            {
+                title: 'BihanceCoin-USD',
+                convert: 'BNB',
+            },
+        ],
+        convert: 'BTC',
+        exchangeDataFetching: true,
+    }),
+    methods: {
+        changeChartCurrency(c) {
+            this.convert = c;
+            console.log(c, this.convert);
+        }
+    },
+    // async created () {
+    //     let response = await fetch("https://api.nomics.com/v1/exchange-rates/history?key=b80e96c0a178a1c8569facd9f5bac1840eab8ec2&currency=BTC&convert=EUR&start=2021-09-22T00%3A00%3A00Z&end=2021-10-6T00%3A00%3A00Z")
+    //     let data = await response.json();
+    //     await console.log(data);
+    // },
+  }
+</script>
+
+<style lang="scss" scoped>
+
+</style>

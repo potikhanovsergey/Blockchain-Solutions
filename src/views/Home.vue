@@ -1,18 +1,27 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<v-container mt-12>
+  <v-row>
+    <v-col>
+      <currency-charts></currency-charts>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <currency-converter></currency-converter>
+    </v-col>
+  </v-row>
+</v-container>
+
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import CurrencyCharts from '../components/CurrencyCharts.vue';
+import CurrencyConverter from '../components/CurrencyConverter.vue';
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+  export default {
+  components: { CurrencyConverter, CurrencyCharts },
+    name: 'Home',
+
   }
-}
-</script>
+
+    CurrencyCharts</script>
