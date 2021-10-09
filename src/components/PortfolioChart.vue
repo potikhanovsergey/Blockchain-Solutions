@@ -40,7 +40,7 @@ export default {
                     type: 'image',
                     opacity: 0.85,
                     image: {
-                        src: ['https://st.depositphotos.com/1094859/4176/v/600/depositphotos_41767861-stock-illustration-bitcoin-coins-seamless-pattern.jpg',
+                        src: ['bitcoin.jpg',
                         'https://st3.depositphotos.com/5128989/i/600/depositphotos_193548550-stock-illustration-pattern-crypto-currency-symbol-ethereum.jpg',
                         'https://st.depositphotos.com/1903923/1678/v/450/depositphotos_16785907-stock-illustration-seamless-dollars-background.jpg'],
                     width: 25,
@@ -87,32 +87,20 @@ export default {
                     
                 }
             }
-
-            this.$refs['portfolioChart'].updateSeries(series)
+                this.$refs.portfolioChart.updateSeries(series);
         }
     },
     computed: {
         ...mapGetters(['portfolioAsArray', 'convertionUSD', 'convertionUSDFetching']),
-        chartSeries() {
-            let series = [];
-            for (let i = 0; i < this.portfolioAsArray.length; i++) {
-                if (this.portfolioAsArray[i].currency === 'USD') {
-                    series.push(this.portfolioAsArray[i].amount);
-                } else {
-                    let key = this.portfolioAsArray[i].currency.toLowerCase();
-                    series.push(
-                        Math.floor(this.portfolioAsArray[i].amount * (1 / this.convertionUSD[key]))
-                    )
-                    
-                }
-            }
-            return series;
-        }
     },
     mounted () {
         if (!this.convertionUSDFetching) {
             this.updateChart();
         }
+
+        setTimeout(() => {
+            this.updateChart()
+        }, 300)
     },
     watch: {
         portfolioAsArray() {

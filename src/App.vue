@@ -76,6 +76,7 @@ export default {
   }),
   methods: {
     ...mapActions(['getAllCharts', 'getConvertionUSD']),
+
   },
   created () {
     this.getAllCharts();

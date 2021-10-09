@@ -8,7 +8,6 @@ export default new Vuex.Store({
     chartsData: {
 
     },
-    portfolioSeries: [],
     dataFetching: true,
     convertionUSDFetching: true,
     portfolio: {
@@ -58,11 +57,10 @@ export default new Vuex.Store({
       for (let [k, v] of Object.entries(data)) {
         store.convertionRates[k] = v; 
       }
-      console.log(store.convertionRates)
     },
     addConvertionUSD(store, data) {
       store.convertionUSD = data;
-    }
+    },
   },
   actions: {
     async getConvertionUSD({commit}) {
@@ -199,7 +197,7 @@ export default new Vuex.Store({
     },
     convertionUSD: (state) => {
       return state.convertionUSD;
-    }
+    },
   },
   modules: {
   }
