@@ -31,13 +31,15 @@ export default {
             }
             },
             dataLabels: {
-            enabled: false
+
+                enabled: false
             },
             stroke: {
             curve: 'straight'
             },
             
             title: {
+                color: '#fff',
             text: 'Blockchain solutions Charts',
             align: 'left'
             },

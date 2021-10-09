@@ -71,25 +71,6 @@ export default new Vuex.Store({
       let firstKey = Object.keys(data)[0];
       let secondKey = Object.keys(data)[1];
 
-      // Object.defineProperty(data, 'timestamp',
-      //   Object.getOwnPropertyDescriptor(data, firstKey));
-      // delete data[firstKey];
-
-      // data.timestamp = data.timestamp + 'T00:00:00Z';
-
-      // Object.defineProperty(data, 'rate',
-      //   Object.getOwnPropertyDescriptor(data, secondKey));
-      // delete data[secondKey];
-
-      // let arr = [];
-      // arr.push(data.timestamp);
-      // arr.push(data.rate);
-
-
-      // store.chartsData2.push(arr);
-      // if (store.chartsData2.length === 14) {
-      //   store.chartsDataFetching = false;
-      // }
 
       data[firstKey] = data[firstKey] + 'T00:00:00Z';
       let arr = [];
@@ -97,10 +78,9 @@ export default new Vuex.Store({
       arr.push(data[secondKey]);
 
       store.chartsData2[c.toUpperCase()].push(arr);
-      // store.chartsData2.push(arr);
       store.chartsDataFetching = false;
 
-    }
+    },
   },
   actions: {
     async getConvertionUSD({commit}) {
@@ -216,20 +196,6 @@ export default new Vuex.Store({
       return state.portfolio;
     },
     portfolioAsArray: (state) => {
-      // portfolio: {
-      //   BTC: {
-      //     amount: 2,
-      //     icon: 'bitcoin'
-      //   },
-      //   ETH: {
-      //     amount: 44,
-      //     icon: 'ethereum'
-      //   },
-      //   USD: {
-      //     amount: 2210,
-      //     icon: 'currency-usd'
-      //   }
-      // },
       let arr = [];
       for (let k in state.portfolio) {
         let obj = {

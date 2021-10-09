@@ -66,17 +66,6 @@ import CurrencyChart from './CurrencyChart.vue';
     computed: {
         ...mapGetters(['dataFetching', 'chartsDataFetching']),
     },
-    // mounted() {
-    //     let that = this;
-    //     window.onresize = function() {
-    //         that.size = window.innerWidth
-    //     }
-    // }
-    // async created () {
-    //     let response = await fetch("https://api.nomics.com/v1/exchange-rates/history?key=b80e96c0a178a1c8569facd9f5bac1840eab8ec2&currency=BTC&convert=EUR&start=2021-09-22T00%3A00%3A00Z&end=2021-10-6T00%3A00%3A00Z")
-    //     let data = await response.json();
-    //     await console.log(data);
-    // },
   }
 </script>
 
