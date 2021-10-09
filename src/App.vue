@@ -73,15 +73,35 @@ export default {
   name: 'App',
 
   data: () => ({
-    drawer: false
+    drawer: false,
+    test: []
   }),
   methods: {
-    ...mapActions(['getAllCharts', 'getConvertionUSD']),
+    ...mapActions(['getAllCharts', 'getConvertionUSD', 'getAllCharts2']),
 
   },
   created () {
-    this.getAllCharts();
+    // this.getAllCharts();
     this.getConvertionUSD();
+    this.getAllCharts2();
+    // let twoWeeks = 1000 * 60 * 60 * 24 * 15;
+    // let twoWeeksTime = new Date().getTime() - twoWeeks;
+
+
+    // for (let i = 0; i < 14; i++) {
+    //   console.log(twoWeeksTime + (1000 * 60 * 60 * 24 * (i + 1)))
+    //   let date = new Date(twoWeeksTime + (1000 * 60 * 60 * 24 * (i + 1)));
+    //   console.log(date);
+    //   let dateFormatted = (date.getFullYear()) + '-' +
+    //     ((date.getMonth()+1) < 10 ? "0"+ (date.getMonth()+1): (date.getMonth()+1)) + '-' +
+    //     (date.getDate() < 10 ? "0"+(date.getDate()): (date.getDate()));
+    //   console.log(i, dateFormatted)
+    //   fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/${dateFormatted}/currencies/eth/usd.json`)
+    //   .then((response) => response.json())
+    //   .then((data) => this.test.push(data))
+    //   .then(() => console.log(this.test))
+    // }
+
   },
 };
 </script>

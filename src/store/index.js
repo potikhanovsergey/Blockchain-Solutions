@@ -5,6 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    chartsData2: {
+      BTC: [],
+      ETH: [],
+      BNB: []
+    },
+    chartsDataFetching: true,
     chartsData: {
 
     },
@@ -61,6 +67,40 @@ export default new Vuex.Store({
     addConvertionUSD(store, data) {
       store.convertionUSD = data;
     },
+    pushData(store, {data, c}) {
+      let firstKey = Object.keys(data)[0];
+      let secondKey = Object.keys(data)[1];
+
+      // Object.defineProperty(data, 'timestamp',
+      //   Object.getOwnPropertyDescriptor(data, firstKey));
+      // delete data[firstKey];
+
+      // data.timestamp = data.timestamp + 'T00:00:00Z';
+
+      // Object.defineProperty(data, 'rate',
+      //   Object.getOwnPropertyDescriptor(data, secondKey));
+      // delete data[secondKey];
+
+      // let arr = [];
+      // arr.push(data.timestamp);
+      // arr.push(data.rate);
+
+
+      // store.chartsData2.push(arr);
+      // if (store.chartsData2.length === 14) {
+      //   store.chartsDataFetching = false;
+      // }
+
+      data[firstKey] = data[firstKey] + 'T00:00:00Z';
+      let arr = [];
+      arr.push(data[firstKey]);
+      arr.push(data[secondKey]);
+
+      store.chartsData2[c.toUpperCase()].push(arr);
+      // store.chartsData2.push(arr);
+      store.chartsDataFetching = false;
+
+    }
   },
   actions: {
     async getConvertionUSD({commit}) {
@@ -81,7 +121,26 @@ export default new Vuex.Store({
         commit('setChartData', {data, currency: payload.currency})
       })
     },
-    async getAllCharts({commit}) {
+    getAllCharts2({commit}) {
+      let twoWeeks = 1000 * 60 * 60 * 24 * 15;
+      let twoWeeksTime = new Date().getTime() - twoWeeks;
+      let currencies = ['btc', 'eth', 'bnb'];
+      for (let j = 0; j < currencies.length; j++) {
+        for (let i = 0; i < 14; i++) {
+
+          let date = new Date(twoWeeksTime + (1000 * 60 * 60 * 24 * (i + 1)));
+          let dateFormatted = (date.getFullYear()) + '-' +
+            ((date.getMonth()+1) < 10 ? "0"+ (date.getMonth()+1): (date.getMonth()+1)) + '-' +
+            (date.getDate() < 10 ? "0"+(date.getDate()): (date.getDate()));
+          console.log(i, dateFormatted)
+
+          fetch(`https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/${dateFormatted}/currencies/${currencies[j]}/usd.json`)
+          .then((response) => response.json())
+          .then((data) => commit('pushData', {data, c: currencies[j]}))
+        }
+      }
+    },
+    getAllCharts({commit}) {
       let twoWeeks = 1000 * 60 * 60 * 24 * 14;
       let twoWeeksTime = new Date(new Date().getTime() - twoWeeks);
       let twoWeeksAgo = (twoWeeksTime.getFullYear()) + '-' +
@@ -142,6 +201,11 @@ export default new Vuex.Store({
       }
       return [];
     },
+    chartsDataGetter: (state) => (cur) => {
+      if (state.chartsData2[cur]) {
+        return state.chartsData2[cur];
+      }
+    },
     dataFetching: (state) => {
       return state.dataFetching;
     },
@@ -183,6 +247,12 @@ export default new Vuex.Store({
     convertionUSD: (state) => {
       return state.convertionUSD;
     },
+    chartsData2: (state) => {
+      return state.chartsData2;
+    },
+    chartsDataFetching: (state) => {
+      return state.chartsDataFetching;
+    }
   },
   modules: {
   }

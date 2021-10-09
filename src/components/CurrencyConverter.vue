@@ -22,7 +22,7 @@
                 <v-select
                 :items="['USD', 'BTC', 'ETH']"
                 label="Хочу приобрести"
-                v-model="right.currency"
+                v-model="rightCurrency"
                 ></v-select>
 
             </v-card-actions>
@@ -43,7 +43,7 @@
                     type="number"
                     v-model="right.value"
                     filled
-                    :label="right.currency">
+                    :label="rightCurrency">
                 </v-text-field>    
             </v-card-actions>
         </div>
@@ -68,6 +68,9 @@ export default {
                 value: 50,
             }
         }
+    },
+    mounted () {
+        this.calculate(this.leftCurrency, this.leftValue, this.right.currency)
     },
     methods: {
         swap() {
@@ -107,10 +110,19 @@ export default {
                 return this.left.currency;
             },
             set(val) {
-                this.calculate(val, this.leftValue, this.right.currency);
+                this.calculate(val, this.leftValue, this.rightCurrency);
                 this.left.currency = val;
             }
         },
+        rightCurrency: {
+            get() {
+                return this.right.currency;
+            },
+            set(val) {
+                this.calculate(this.leftCurrency, this.leftValue, val);
+                this.right.currency = val;
+            }
+        }
     },
     watch: {
         convertionUSD(newValue) {

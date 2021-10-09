@@ -19,14 +19,14 @@
                 </v-tab>
         </v-tabs>
         <v-sheet color="transparent">
-            <v-skeleton-loader v-show="dataFetching"
+            <v-skeleton-loader v-show="chartsDataFetching"
             class="mx-auto"
             width="100%"
             type="card"
             ></v-skeleton-loader>
 
             <currency-chart 
-            v-show="!dataFetching"
+            v-show="!chartsDataFetching"
             @fetched="exchangeDataFetching = false"
              :convert="convert"></currency-chart>
 
@@ -52,7 +52,7 @@ import CurrencyChart from './CurrencyChart.vue';
                 convert: 'ETH',
             },
             {
-                title: 'BihanceCoin-USD',
+                title: 'BinanceCoin-USD',
                 convert: 'BNB',
             },
         ],
@@ -64,7 +64,7 @@ import CurrencyChart from './CurrencyChart.vue';
         }
     },
     computed: {
-        ...mapGetters(['dataFetching']),
+        ...mapGetters(['dataFetching', 'chartsDataFetching']),
     },
     // mounted() {
     //     let that = this;
