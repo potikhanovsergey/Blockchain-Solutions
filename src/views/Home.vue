@@ -1,5 +1,5 @@
 <template>
-<v-container mt-12>
+<v-container mt-12 pb-10>
   <v-row>
     <v-col>
       <currency-charts></currency-charts>

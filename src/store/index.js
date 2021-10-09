@@ -71,21 +71,6 @@ export default new Vuex.Store({
         commit('convertionUSDFetched')
       });
     },
-    async getConvertionRates({commit}) {
-      let currencies = ['USD', 'ETH', 'BTC'];
-
-      currencies = currencies.map( (v, i) => currencies.slice(i + 1).map(w => [v, w])).flat();
-      for (let i = 0; i < currencies.length; i++) {
-        let fetchString = `https://free.currconv.com/api/v7/convert?q=${currencies[i][0] + '_' + currencies[i][1]},${currencies[i][1] + '_' + currencies[i][0]}&compact=ultra&apiKey=64f1c4a49acdc7dc4d46`;
-        fetch(fetchString)
-        .then((response) => response.json())
-        .then((data) => {
-          if (Object.keys(data).length) {
-            commit('addConvertionRates', data)
-          }
-        })
-      }      
-    },
     async getChartData({commit}, payload) {
       console.log(payload.fetchString)
       fetch(payload.fetchString)
