@@ -1,7 +1,7 @@
 <template>
-    <v-row>
+    <v-row class="justify-center">
 
-      <v-col v-for="(item, key) in portfolio" :key="key">
+      <v-col class="col-12 col-sm-8 col-md-6 col-lg-4" v-for="(item, key) in portfolio" :key="key">
         <v-card>
           <v-card-title>
                 <v-icon class="mb-1 mr-1">mdi-{{ item.icon }}</v-icon>

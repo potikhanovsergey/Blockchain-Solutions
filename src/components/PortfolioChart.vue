@@ -1,5 +1,5 @@
 <template>
-    <apex-chart ref="portfolioChart" type="pie" width="60%" :options="chartOptions" :series="series">
+    <apex-chart ref="portfolioChart" type="pie" class="chart" :options="chartOptions" :series="series">
     </apex-chart>
 </template>
 
@@ -13,13 +13,21 @@ export default {
 
     data() {
         return {
+            window: {
+                width: 0,
+                height: 0
+            },
             series: [1, 2, 3],
             chartOptions: {
                 labels: ['BTC в $', 'ETH в $', 'USD'],
                 chart: {
                     width: 380,
                     type: 'pie',
+                    redrawOnWindowResize: false,
+                    redrawOnParentResize: false
+
                 },
+
                 legend: {   
                     position: 'left',
                     fontSize: '28px',
@@ -63,10 +71,16 @@ export default {
                 },
                 responsive: [{
                     breakpoint: 480,
+
                     options: {
-                    chart: {
-                        width: 300
-                    },
+                        chart: {
+                            width: 300
+                        },
+                        legend: {
+                            position: 'top',
+                            fontSize: '16px'
+
+                        },
                     }
                 }]
             },
@@ -100,7 +114,7 @@ export default {
 
         setTimeout(() => {
             this.updateChart()
-        }, 300)
+        }, 700)
     },
     watch: {
         portfolioAsArray() {
@@ -113,6 +127,21 @@ export default {
         },
     },
 
-
 }
 </script>
+
+<style lang="scss" scoped>
+    .chart {
+        width: 60%;
+        margin: 0 auto;
+        min-width: 380px;
+        max-width: 540px;;
+    }
+
+    @media (max-width: 500px) {
+        .chart {
+            width: 80%;
+            min-width: auto;
+        }
+    }
+</style>

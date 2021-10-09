@@ -4,6 +4,7 @@
       app
       color="accent-1"
       dark
+      class="flex-wrap"
     >
       <v-app-bar-nav-icon 
       class="mr-6"
@@ -18,13 +19,13 @@
           width="40"
         />
       </div>
-      <v-app-bar-title>
+      <v-app-bar-title class="d-none d-sm-block">
         <h1 class="display-1">Blockchain Solutions</h1>
       </v-app-bar-title>
 
 
       <v-spacer></v-spacer>
-      <span class="mr-5">Конвертер криптовалют. Тестовое задание на позицию Frontend Developer Стажировка</span>
+      <span class="mr-5 header-description">Конвертер криптовалют. Тестовое задание на позицию Frontend Developer Стажировка</span>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -84,3 +85,16 @@ export default {
   },
 };
 </script>
+
+
+<style lang="scss">
+@media (max-width: 1200px) {
+  .header-description {
+    display: none;
+  }
+}
+
+.v-card__title {
+  word-break: normal !important;
+}
+</style>

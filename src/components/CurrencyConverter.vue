@@ -5,14 +5,17 @@
         </v-card-title>
         <v-skeleton-loader v-if="convertionUSDFetching"></v-skeleton-loader>
         <div v-else>
-            <v-card-actions>
+            <v-card-actions class="flex-column flex-sm-row">
                 <v-select
                 :items="['USD', 'BTC', 'ETH']"
                 v-model="leftCurrency"
                 label="У меня есть"
                 ></v-select>
                 <v-spacer></v-spacer>
-                <v-btn @click="swap">
+                <v-btn
+                class="swap-btn"
+                icon
+                 @click="swap">
                     <v-icon>mdi-swap-horizontal</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -29,7 +32,7 @@
                     type="number"
                     v-model="leftValue"
                     filled
-                    rounded>
+                    :label="leftCurrency">
                 </v-text-field>
                 <v-spacer></v-spacer>
                 <v-spacer></v-spacer>
@@ -40,7 +43,7 @@
                     type="number"
                     v-model="right.value"
                     filled
-                    rounded>
+                    :label="right.currency">
                 </v-text-field>    
             </v-card-actions>
         </div>
@@ -129,5 +132,9 @@ export default {
 </script>
 
 <style lang="scss">
-    
+    @media (max-width: 600px) {
+        .swap-btn {
+            transform: rotate(90deg);
+        }
+    }
 </style>
